@@ -1,0 +1,9 @@
+{
+  "name": "tally",
+  "version": "0.1.0",
+  "main": "main.js",
+  "author": "Benedict Etzel <developer@beheh.de>",
+  "devDependencies": {
+    "typescript": "^1.8.10"
+  }
+}
