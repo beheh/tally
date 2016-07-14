@@ -12,7 +12,7 @@ module.exports = {
 				test: /\.tsx?$/,
 				loaders: [
 					'babel-loader?presets[]=react&presets[]=es2015',
-					'ts-loader',
+					'awesome-typescript-loader',
 				]
 			}
 		]

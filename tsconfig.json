@@ -11,10 +11,10 @@
     "suppressImplicitAnyIndexErrors": true,
     "sourceMap": true
   },
-  "filesGlob": [
-    "src/**/*.ts",
-    "src/**/*.tsx"
+  "include": [
+    "src/**/*"
   ],
-  "files": [
+  "exclude": [
+    "node_modules"
   ]
 }
