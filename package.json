@@ -8,11 +8,6 @@
     "url": "https://github.com/beheh/tally.git"
   },
   "devDependencies": {
-    "@types/electron": "^0.37.12-alpha",
-    "@types/js-yaml": "^3.5.26-alpha",
-    "@types/node": "^4.0.28-alpha",
-    "@types/react": "^0.14.26-alpha",
-    "@types/react-dom": "^0.14.12-alpha",
     "awesome-typescript-loader": "^2.0.1",
     "babel-core": "^6.10.4",
     "babel-loader": "^6.2.4",
