@@ -4,79 +4,57 @@ import {IncomingMessage} from "http";
 
 export default class HSReplayNetClientImpl implements HSReplayNetClient {
 
-	public endpoint: string = null;
-	public api_key: string = null;
+	public endpoint:string = null;
+	public api_key:string = null;
 
-	public requestToken(cb:(token:string)=>void): void {
+	private jsonRequest(resource:string, success:(payload:any) => void, error?:(details?:any) => void, method?:"POST" | "GET", additionalHeaders?:{[key:string]:any}):void {
+		let headers = {
+			"Accept": "application/json",
+			"X-Api-Key": this.api_key,
+		};
+		if (additionalHeaders && typeof additionalHeaders === 'object') {
+			let keys = Object.keys(additionalHeaders);
+			for (let i = 0; i < keys.length; i++) {
+				let key = keys[i];
+				headers[key] = additionalHeaders[key];
+			}
+		}
 		let req = request({
-			host: "hsreplay.net",
+			host: this.endpoint,
 			port: 443,
-			path: "/api/v1/tokens/",
-			method: "POST",
-			headers: {
-				"Accept": "application/json",
-				"X-Api-Key": this.api_key,
-			},
-		}, (res: IncomingMessage) => {
+			path: "/api/v1/" + resource,
+			method: method || "POST",
+			headers: headers,
+		}, (res:IncomingMessage) => {
 			res.setEncoding('utf-8');
 			let data = "";
-			res.on('data', (chunk: string) => {
+			res.on('data', (chunk:string) => {
 				data += chunk;
 			});
 			res.on('end', () => {
-				let payload = JSON.parse(data);
-				cb(payload['key']);
+				if (res.statusCode.toString().startsWith("2")) {
+					console.debug(data);
+					success(JSON.parse(data));
+					return;
+				}
+				if (res.statusCode.toString().startsWith("4")) {
+					console.error(res.statusCode + " " + res.statusMessage + ":", JSON.parse(data));
+				}
+				error && error();
 			})
 		});
 		req.end();
 	}
 
-	public claimAccount(token:string, cb:(url:string)=>void): void {
-		let req = request({
-			host: "hsreplay.net",
-			port: 443,
-			path: "/api/v1/claim_account/",
-			method: "POST",
-			headers: {
-				"Accept": "application/json",
-				"X-Api-Key": this.api_key,
-				"Authorization": "Token " + token,
-			},
-		}, (res: IncomingMessage) => {
-			res.setEncoding('utf-8');
-			let data = "";
-			res.on('data', (chunk: string) => {
-				data += chunk;
-			});
-			res.on('end', () => {
-				let payload = JSON.parse(data);
-				cb(payload['url']);
-			})
-		});
-		req.end();
+	public requestToken(cb:(token:string)=>void):void {
+		this.jsonRequest("tokens/", (payload:any) => cb(payload['key']));
 	}
 
-	public queryToken(token:string, cb:(user:HSReplayNetUser)=>void): void {
-		let req = request({
-			host: "hsreplay.net",
-			port: 443,
-			path: "/api/v1/tokens/" + token + "/",
-			method: "GET",
-			headers: {
-				"Accept": "application/json",
-				"X-Api-Key": this.api_key,
-			},
-		}, (res: IncomingMessage) => {
-			res.setEncoding('utf-8');
-			let data = "";
-			res.on('data', (chunk: string) => {
-				data += chunk;
-			});
-			res.on('end', () => {
-				let payload = JSON.parse(data);
-				cb(payload['user']);
-			})
-		});
-		req.end();
+	public claimAccount(token:string, cb:(url:string)=>void):void {
+		this.jsonRequest("claim_account/", (payload:any) => cb(payload['url']), null, null, {"Authorization": "Token " + token});
+	}
+
+	public queryToken(token:string, success:(user:HSReplayNetUser)=>void):void {
+		this.jsonRequest("tokens/" + token + "/", (payload:any) => success(payload['user']), null, "GET");
 	}
 }
