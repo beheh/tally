@@ -1,10 +1,11 @@
 import * as React from "react";
 import {HSReplayNetUser} from "../interfaces";
+import Spinner from "./Spinner";
 
 const {shell} = require('electron');
 
 interface AccountProps extends React.ClassAttributes<any> {
-	claimAccount?:(success: (url: string) => void) => void;
+	claimAccount?:(success:(url:string) => void) => void;
 	claiming?:boolean;
 	querying?:boolean;
 	waiting?:boolean;
@@ -20,13 +21,13 @@ export default class Account extends React.Component<AccountProps, any> {
 
 	render():React.ReactElement<any> {
 		if (this.props.claiming) {
-			return <span><i className="fa fa-refresh fa-spin fa-fw"></i> {"Claiming Account"}</span>
+			return <Spinner message="Claiming account"/>;
 		}
 		if (this.props.waiting) {
-			return <span><i className="fa fa-refresh fa-spin fa-fw"></i> {"Waiting for claim"}</span>
+			return <Spinner message="Waiting for claim"/>;
 		}
 		if (this.props.querying) {
-			return <span><i className="fa fa-refresh fa-spin fa-fw"></i> {"Checking account"}</span>
+			return <Spinner message="Checking account"/>;
 		}
 		if (this.props.user) {
 			return <span><a href="#" onClick={(e) => this.openAccount(e)}>{this.props.user.username}</a></span>
