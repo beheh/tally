@@ -4,6 +4,11 @@
   "main": "main.js",
   "author": "Benedict Etzel <developer@beheh.de>",
   "devDependencies": {
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1",
     "typescript": "^1.8.10"
+  },
+  "dependencies": {
+    "js-yaml": "^3.6.1"
   }
 }

@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "declaration": false,
+    "target": "es6",
+    "moduleResolution": "node",
+    "isolatedModules": false,
+    "jsx": "react",
+    "noImplicitAny": false,
+    "removeComments": true,
+    "noLib": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "sourceMap": true
+  },
+  "filesGlob": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "files": [
+  ]
+}
