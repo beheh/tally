@@ -38,7 +38,7 @@ class Tally extends React.Component<TallyProps, TallyState> {
 		});
 	}
 
-	private claimAccount(success: (url: string) => void) {
+	private claimAccount(success:(url:string) => void) {
 		this.setState({
 			claimingAccount: true,
 		});
@@ -46,7 +46,7 @@ class Tally extends React.Component<TallyProps, TallyState> {
 			this.setState({
 				claimingAccount: false
 			});
-			if(url) {
+			if (url) {
 				success('https://hsreplay.net' + url);
 			}
 		});
@@ -57,10 +57,18 @@ class Tally extends React.Component<TallyProps, TallyState> {
 		return <div>
 			<h1>Tally</h1>
 			<h2>Account</h2>
-			<p>Token: <Token token={token} working={this.state.requestingToken}
-					  requestToken={() => this.requestToken()}/></p>
-			<p>User: <ClaimAccountButton working={this.state.claimingAccount}
-								   claimAccount={token && ((success) => this.claimAccount(success))}/></p>
+			<dl>
+				<dt>Token</dt>
+				<dd>
+					<Token token={token} working={this.state.requestingToken}
+						   requestToken={() => this.requestToken()}/>
+				</dd>
+				<dt>User</dt>
+				<dd>
+					<ClaimAccountButton working={this.state.claimingAccount}
+										claimAccount={token && ((success) => this.claimAccount(success))}/>
+				</dd>
+			</dl>
 			<h2>Replays</h2>
 			<ul></ul>
 		</div>;
