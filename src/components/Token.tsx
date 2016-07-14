@@ -19,7 +19,7 @@ export default class Token extends React.Component<TokenProps, any> {
 
 	render():React.ReactElement<any> {
 		if (this.props.working) {
-			return <span><i className="fa fa-refresh fa-spin fa-fw"></i> {"Requesting"}</span>;
+			return <span><i className="fa fa-refresh fa-spin fa-fw"></i> {"Requesting token"}</span>;
 		}
 		if (this.props.token) {
 			return <em className="token">{this.props.token}</em>;
