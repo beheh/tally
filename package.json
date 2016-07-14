@@ -4,6 +4,8 @@
   "main": "main.js",
   "author": "Benedict Etzel <developer@beheh.de>",
   "devDependencies": {
+    "babel-core": "^6.10.4",
+    "babel-loader": "^6.2.4",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
     "typescript": "^1.8.10"
