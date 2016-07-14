@@ -4,7 +4,7 @@ import Spinner from "./Spinner";
 interface TokenProps extends React.ClassAttributes<any> {
 	token:string;
 	working?:boolean;
-	requestToken:() => void;
+	requestToken?:() => void;
 }
 
 export default class Token extends React.Component<TokenProps, any> {
@@ -12,7 +12,7 @@ export default class Token extends React.Component<TokenProps, any> {
 	private timeout:number = null;
 
 	private scheduleRequestToken() {
-		if (this.timeout) {
+		if (this.timeout || !this.props.requestToken) {
 			return;
 		}
 		this.timeout = window.setTimeout(() => this.props.requestToken(), 500);
@@ -25,7 +25,9 @@ export default class Token extends React.Component<TokenProps, any> {
 		if (this.props.token) {
 			return <em className="token">{this.props.token}</em>;
 		}
-		this.scheduleRequestToken();
+		if(this.props.requestToken) {
+			this.scheduleRequestToken();
+		}
 		return <span>Not found.</span>;
 	}
 }

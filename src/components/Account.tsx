@@ -6,6 +6,7 @@ const {shell} = require('electron');
 
 interface AccountProps extends React.ClassAttributes<any> {
 	claimAccount?:(success:(url:string) => void) => void;
+	cancelClaim?:() => void;
 	claiming?:boolean;
 	querying?:boolean;
 	waiting?:boolean;
@@ -24,7 +25,10 @@ export default class Account extends React.Component<AccountProps, any> {
 			return <Spinner message="Claiming account"/>;
 		}
 		if (this.props.waiting) {
-			return <Spinner message="Waiting for claim"/>;
+			return <span>
+				<Spinner message="Waiting for claim"/>
+				{this.props.cancelClaim && <span>&nbsp;<button onClick={this.props.cancelClaim}>Cancel</button></span>}
+			</span>;
 		}
 		if (this.props.querying) {
 			return <Spinner message="Checking account"/>;
