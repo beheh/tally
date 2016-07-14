@@ -147,8 +147,9 @@ class Tally extends React.Component<TallyProps, TallyState> {
 				{this.state.user && <p><a href="#" onClick={(e) => this.openUrl(e, "https://hsreplay.net/account/login/?next=/games/mine/")}>Open in browser</a></p>}
 			</div>
 			<footer className="branding">
-				<small>powered by</small>&nbsp;
-				<a href="#" onClick={(e) => this.openUrl(e, "https://hsreplay.net/")}><img src="img/hsreplaynet.png"/>HSReplay.net</a>
+				<small>powered by</small>
+				&nbsp;
+				<a href="#" onClick={(e) => this.openUrl(e, "https://hsreplay.net/")}><img src="img/hsreplaynet.png"/><span>HSReplay.net</span></a>
 			</footer>
 		</div>;
 	}

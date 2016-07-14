@@ -48,8 +48,11 @@ a:active {
 .branding img {
     height: 1em;
     width: 0.796052632em;
-    vertical-align: text-bottom;
     margin: 0 0.2em;
+}
+
+.branding span, .branding img {
+    vertical-align: middle;
 }
 
 .branding a {
