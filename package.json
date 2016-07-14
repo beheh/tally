@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "main": "main.js",
   "author": "Benedict Etzel <developer@beheh.de>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/beheh/tally.git"
+  },
   "devDependencies": {
     "@types/electron": "^0.37.12-alpha",
     "@types/js-yaml": "^3.5.26-alpha",
@@ -22,5 +26,6 @@
   },
   "dependencies": {
     "js-yaml": "^3.6.1"
-  }
+  },
+  "private": true
 }
