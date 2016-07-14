@@ -1,0 +1,58 @@
+html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+root, html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
+
+#tally {
+    font-family: 'Noto Sans', sans-serif;
+    padding: 10px;
+    -webkit-user-select: none;
+    cursor: default;
+}
+
+h1, h2 {
+    margin-top: 0;
+}
+
+a {
+    color: #1d3657;
+}
+
+a:active {
+    color: #4076bd;
+}
+
+.account {
+    float: right;
+}
+
+.branding {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    float: right;
+    padding: 10px;
+}
+
+.branding img {
+    height: 1em;
+    width: 0.796052632em;
+    vertical-align: text-bottom;
+    margin: 0 0.2em;
+}
+
+.branding a {
+    color: inherit;
+    text-decoration: none;
+}

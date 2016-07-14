@@ -11,10 +11,13 @@ let win;
 
 function createWindow() {
 	// Create the browser window.
-	win = new BrowserWindow({width: 800, height: 600});
+	win = new BrowserWindow({width: 800, height: 400, show: false});
 
 	// and load the index.html of the app.
 	win.loadURL(`file://${__dirname}/index.html`);
+
+	// remove default menu bar
+	win.setMenu(null);
 
 	// Open the DevTools.
 	win.webContents.openDevTools();
@@ -25,6 +28,15 @@ function createWindow() {
 		// in an array if your app supports multi windows, this is the time
 		// when you should delete the corresponding element.
 		win = null;
+	});
+
+	// don't ever navigate away
+	win.webContents.on('will-navigate', (e) => {
+		e.preventDefault();
+	});
+
+	win.once('ready-to-show', () => {
+		win.show()
 	});
 }
 

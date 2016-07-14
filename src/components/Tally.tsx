@@ -4,6 +4,8 @@ import Configuration from "../Configuration";
 import Token from "./Token";
 import {HSReplayNetClient, HSReplayNetUser} from "../interfaces";
 
+const {shell, clipboard} = require('electron');
+
 interface TallyProps extends React.ClassAttributes<any> {
 	configuration:Configuration;
 	client:HSReplayNetClient;
@@ -15,7 +17,6 @@ interface TallyState {
 	queryingToken?:boolean;
 	waitingForClaim?:boolean;
 	user?:HSReplayNetUser;
-	showToken?:boolean;
 }
 
 class Tally extends React.Component<TallyProps, TallyState> {
@@ -28,7 +29,6 @@ class Tally extends React.Component<TallyProps, TallyState> {
 			claimingAccount: false,
 			queryingToken: !!token,
 			waitingForClaim: false,
-			showToken: false,
 		};
 		if (token) {
 			this.queryToken(null, true);
@@ -115,36 +115,41 @@ class Tally extends React.Component<TallyProps, TallyState> {
 		});
 	}
 
+	private openUrl(e, url: string) {
+		e.preventDefault();
+		shell.openExternal(url);
+	}
+
 	public render():React.ReactElement<any> {
 		let token = this.props.configuration.get('token');
-		let accountComponent = null;
-		let tokenComponent = null;
+		let component = null;
 		if (token) {
-			accountComponent = <Account user={this.state.user}
+			component = <Account user={this.state.user}
 							   claiming={this.state.claimingAccount}
 							   querying={this.state.queryingToken}
 							   waiting={this.state.waitingForClaim}
 							   claimAccount={token && ((success) => this.claimAccount(success))}
 							   cancelClaim={() => this.setState({waitingForClaim: false})}
 			/>;
-			if(this.state.showToken) {
-				tokenComponent = <span>with token: <Token token={token} /></span>;
-			}
-			else {
-				tokenComponent = <button onClick={() => this.setState({showToken: true})}>Show token</button>;
-			}
 		}
 		else {
-			tokenComponent = <Token token={token} working={this.state.requestingToken}
+			component = <Token token={token} working={this.state.requestingToken}
 							 requestToken={() => this.requestToken()}/>;
 		}
 		let replays = [];
-		return <div>
-			<h1>Tally</h1>
-			<h2>Account</h2>
-			<p>{accountComponent}&nbsp;{tokenComponent}</p>
-			<h2>Replays</h2>
-			<ul>{replays}</ul>
+		return <div id="tally">
+			<aside className="account">
+				{component}
+			</aside>
+			<div>
+				<h1>Replays</h1>
+				{replays.length ? <ul>{replays}</ul> : <p>You have not uploaded any replays yet.</p>}
+				{this.state.user && <p><a href="#" onClick={(e) => this.openUrl(e, "https://hsreplay.net/account/login/?next=/games/mine/")}>Open in browser</a></p>}
+			</div>
+			<footer className="branding">
+				<small>powered by</small>&nbsp;
+				<a href="#" onClick={(e) => this.openUrl(e, "https://hsreplay.net/")}><img src="img/hsreplaynet.png"/>HSReplay.net</a>
+			</footer>
 		</div>;
 	}
 }

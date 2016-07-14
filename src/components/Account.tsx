@@ -31,12 +31,15 @@ export default class Account extends React.Component<AccountProps, any> {
 			</span>;
 		}
 		if (this.props.querying) {
-			return <Spinner message="Checking account"/>;
+			return <Spinner message="Checking for account"/>;
 		}
 		if (this.props.user) {
-			return <span><a href="#" onClick={(e) => this.openAccount(e)}>{this.props.user.username}</a></span>
+			return <span>Connected to <a href="#" onClick={(e) => this.openAccount(e)}>{this.props.user.username}</a></span>
 		}
-		return <button onClick={() => {this.props.claimAccount((url: string) => shell.openExternal(url))}}
-					   disabled={!this.props.claimAccount ? "disabled" : ""}>Claim account</button>;
+		return <span>
+			Anonymous&nbsp;
+				<button className="btn btn-large btn-primary" onClick={() => {this.props.claimAccount((url: string) => shell.openExternal(url))}}
+					   disabled={!this.props.claimAccount ? "disabled" : ""}>Claim account</button>
+			</span>;
 	}
 }
