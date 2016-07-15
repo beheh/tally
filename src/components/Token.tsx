@@ -28,6 +28,6 @@ export default class Token extends React.Component<TokenProps, any> {
 		if(this.props.requestToken) {
 			this.scheduleRequestToken();
 		}
-		return <span>Not found.</span>;
+		return <span>Not connected.</span>;
 	}
 }
