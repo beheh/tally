@@ -1,4 +1,5 @@
 # Tally
+[![Build Status](https://travis-ci.com/beheh/tally.svg?token=DyeK73JepzhYTQHiANnx&branch=master)](https://travis-ci.com/beheh/tally)
 
 Tally is a light-weight HSReplay.net client for uploading replays.
 
