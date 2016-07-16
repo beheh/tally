@@ -23,8 +23,4 @@ module.exports = {
 		net: true,
 	},
 	target: 'electron',
-	externals: {
-		"react": "React",
-		"react-dom": "ReactDOM",
-	},
 };
