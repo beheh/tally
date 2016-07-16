@@ -4,7 +4,7 @@ import Configuration from "../Configuration";
 import Token from "./Token";
 import {HSReplayNetClient, HSReplayNetUser} from "../interfaces";
 
-const {shell, clipboard} = require('electron');
+const {shell} = require('electron').remote;
 
 interface TallyProps extends React.ClassAttributes<any> {
 	configuration:Configuration;
@@ -29,6 +29,7 @@ class Tally extends React.Component<TallyProps, TallyState> {
 			claimingAccount: false,
 			queryingToken: !!token,
 			waitingForClaim: false,
+			user: null,
 		};
 		if (token) {
 			this.queryToken(null, true);
@@ -82,7 +83,7 @@ class Tally extends React.Component<TallyProps, TallyState> {
 					});
 				};
 				interval = window.setInterval(() => {
-					if(!this.state.waitingForClaim) {
+					if (!this.state.waitingForClaim) {
 						end();
 						return;
 					}
@@ -115,7 +116,7 @@ class Tally extends React.Component<TallyProps, TallyState> {
 		});
 	}
 
-	private openUrl(e, url: string) {
+	private openUrl(e, url:string) {
 		e.preventDefault();
 		shell.openExternal(url);
 	}
@@ -125,16 +126,16 @@ class Tally extends React.Component<TallyProps, TallyState> {
 		let component = null;
 		if (token) {
 			component = <Account user={this.state.user}
-							   claiming={this.state.claimingAccount}
-							   querying={this.state.queryingToken}
-							   waiting={this.state.waitingForClaim}
-							   claimAccount={token && ((success) => this.claimAccount(success))}
-							   cancelClaim={() => this.setState({waitingForClaim: false})}
+								 claiming={this.state.claimingAccount}
+								 querying={this.state.queryingToken}
+								 waiting={this.state.waitingForClaim}
+								 claimAccount={token && ((success) => this.claimAccount(success))}
+								 cancelClaim={() => this.setState({waitingForClaim: false})}
 			/>;
 		}
 		else {
 			component = <Token token={token} working={this.state.requestingToken}
-							 requestToken={() => this.requestToken()}/>;
+							   requestToken={() => this.requestToken()}/>;
 		}
 		let replays = [];
 		return <div id="tally">
@@ -144,12 +145,17 @@ class Tally extends React.Component<TallyProps, TallyState> {
 			<div>
 				<h1>Replays</h1>
 				{replays.length ? <ul>{replays}</ul> : <p>You have not uploaded any replays yet.</p>}
-				{this.state.user && <p><a href="#" onClick={(e) => this.openUrl(e, "https://hsreplay.net/account/login/?next=/games/mine/")}>Open in browser</a></p>}
+				<p>{this.state.user ?
+					<a href="#"
+					   onClick={(e) => this.openUrl(e, "https://hsreplay.net/account/login/?next=/games/mine/")}>Open in browser</a> :
+					<a href="#" onClick={(e) => this.openUrl(e, "https://hsreplay.net/account/login/")}>Sign in using Battle.net</a>
+				}</p>
 			</div>
 			<footer className="branding">
 				<small>powered by</small>
 				&nbsp;
-				<a href="#" onClick={(e) => this.openUrl(e, "https://hsreplay.net/")}><img src="img/hsreplaynet.png"/><span>HSReplay.net</span></a>
+				<a href="#" onClick={(e) => this.openUrl(e, "https://hsreplay.net/")}><img
+					src="img/hsreplaynet.png"/><span>HSReplay.net</span></a>
 			</footer>
 		</div>;
 	}
