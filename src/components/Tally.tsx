@@ -3,6 +3,7 @@ import Account from "./Account";
 import Configuration from "../Configuration";
 import Token from "./Token";
 import {HSReplayNetClient, HSReplayNetUser} from "../interfaces";
+import LogDirectory from "./LogDirectory";
 
 const {shell} = require('electron').remote;
 
@@ -144,6 +145,10 @@ class Tally extends React.Component<TallyProps, TallyState> {
 			</aside>
 			<div>
 				<h1>Replays</h1>
+				<p>Hearthstone Logs: <LogDirectory directory={this.props.configuration.get('logs')} setDirectory={(directory: string)  => {
+					this.props.configuration.set('logs', directory);
+					this.setState({});
+				}}/></p>
 				{replays.length ? <ul>{replays}</ul> : <p>You have not uploaded any replays yet.</p>}
 				<p>{this.state.user ?
 					<a href="#"
