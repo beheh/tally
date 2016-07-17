@@ -64,3 +64,23 @@ input[type="text"].invalid {
 	border-color: red;
 	color: red;
 }
+
+.spinner {
+	display: inline-block;
+	position: relative;
+	top: -2px;
+}
+
+.spinner > * {
+	vertical-align: middle;
+}
+
+.spinner > img {
+	height: 1em;
+	animation: spin cubic-bezier(0.75, 0.3, 0.25, 0.7) 1.2s infinite;
+}
+
+@-webkit-keyframes spin {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
+}
