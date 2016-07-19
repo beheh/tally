@@ -66,7 +66,7 @@ export default class LogDirectory extends React.Component<LogDirectoryProps, Log
 
 	render():JSX.Element {
 		let canEdit = !this.props.setDirectory || this.state.working;
-		let input = <input type="text" value={this.state.intermediateDirectory} disabled={canEdit} onChange={(e) => this.changeDirectory(e)}  onBlur={() => this.validateAndSaveDirectory(this.state.intermediateDirectory)} className={this.state.invalid ? "invalid" : null} />;
+		let input = <input type="text" value={this.state.intermediateDirectory || ""} disabled={canEdit} onChange={(e) => this.changeDirectory(e)}  onBlur={() => this.validateAndSaveDirectory(this.state.intermediateDirectory)} className={this.state.invalid ? "invalid" : null} />;
 		let button = <button onClick={() => this.selectDirectory()} disabled={canEdit}>Browse&hellip;</button>;
 		return <span>{input} {button}</span>;
 	}
