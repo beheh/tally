@@ -17,20 +17,24 @@ interface TallyState {
 	claimingAccount?:boolean;
 	queryingToken?:boolean;
 	waitingForClaim?:boolean;
-	user?:HSReplayNetUser;
+	token?:string|null;
+	user?:HSReplayNetUser|null;
+	logs?:string;
 }
 
 class Tally extends React.Component<TallyProps, TallyState> {
 
 	constructor(props:TallyProps, context:any) {
 		super(props, context);
-		let token = this.props.configuration.get('token');
+		let token = this.props.configuration.get('token') || null;
 		this.state = {
 			requestingToken: false,
 			claimingAccount: false,
 			queryingToken: !!token,
 			waitingForClaim: false,
+			token: token,
 			user: null,
+			logs: this.props.configuration.get('logs'),
 		};
 		if (token) {
 			this.queryToken(null, true);
@@ -50,6 +54,7 @@ class Tally extends React.Component<TallyProps, TallyState> {
 			}
 			this.setState({
 				requestingToken: false,
+				token: token,
 			})
 		});
 	}
@@ -123,19 +128,18 @@ class Tally extends React.Component<TallyProps, TallyState> {
 	}
 
 	public render():React.ReactElement<any> {
-		let token = this.props.configuration.get('token');
 		let component = null;
-		if (token) {
+		if (this.state.token) {
 			component = <Account user={this.state.user}
 								 claiming={this.state.claimingAccount}
 								 querying={this.state.queryingToken}
 								 waiting={this.state.waitingForClaim}
-								 claimAccount={token && ((success) => this.claimAccount(success))}
+								 claimAccount={this.state.token && ((success) => this.claimAccount(success))}
 								 cancelClaim={() => this.setState({waitingForClaim: false})}
 			/>;
 		}
 		else {
-			component = <Token token={token} working={this.state.requestingToken}
+			component = <Token token={this.state.token} working={this.state.requestingToken}
 							   requestToken={() => this.requestToken()}/>;
 		}
 		let replays = [];
@@ -145,9 +149,11 @@ class Tally extends React.Component<TallyProps, TallyState> {
 			</aside>
 			<div>
 				<h1>Replays</h1>
-				<p>Hearthstone Logs: <LogDirectory directory={this.props.configuration.get('logs')} setDirectory={(directory: string)  => {
+				<p>Hearthstone Logs: <LogDirectory directory={this.state.logs} setDirectory={(directory: string)  => {
 					this.props.configuration.set('logs', directory);
-					this.setState({});
+					this.setState({
+						logs: directory,
+					});
 				}}/></p>
 				{replays.length ? <ul>{replays}</ul> : <p>You have not uploaded any replays yet.</p>}
 				<p>{this.state.user ?
