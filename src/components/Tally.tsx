@@ -158,7 +158,7 @@ class Tally extends React.Component<TallyProps, TallyState> {
 				{replays.length ? <ul>{replays}</ul> : <p>You have not uploaded any replays yet.</p>}
 				<p>{this.state.user ?
 					<a href="#"
-					   onClick={(e) => this.openUrl(e, "https://hsreplay.net/account/login/?next=/games/mine/")}>Open in browser</a> :
+					   onClick={(e) => this.openUrl(e, "https://hsreplay.net/games/mine/")}>Open in browser</a> :
 					<a href="#" onClick={(e) => this.openUrl(e, "https://hsreplay.net/account/login/")}>Sign in using Battle.net</a>
 				}</p>
 			</div>

@@ -17,7 +17,7 @@ export default class Account extends React.Component<AccountProps, any> {
 
 	private openAccount(e) {
 		e.preventDefault();
-		shell.openExternal("https://hsreplay.net/account/login/?next=/account/");
+		shell.openExternal("https://hsreplay.net/account/");
 	}
 
 	render():React.ReactElement<any> {
