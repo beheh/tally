@@ -28,7 +28,7 @@ export default class LogDirectory extends React.Component<LogDirectoryProps, Log
 	private selectDirectory() {
 		let win = getCurrentWindow();
 		dialog.showOpenDialog(win, {
-			defaultPath: this.props.directory,
+			defaultPath: this.props.directory || "",
 			properties: ['openDirectory'],
 		}, (folders: string[]) => {
 			if(!folders || !folders.length) {
