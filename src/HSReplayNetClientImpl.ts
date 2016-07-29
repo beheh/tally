@@ -5,6 +5,7 @@ import {IncomingMessage} from "http";
 export default class HSReplayNetClientImpl implements HSReplayNetClient {
 
 	public endpoint:string = null;
+	public port: number = 80;
 	public api_key:string = null;
 
 	private jsonRequest(resource:string, success:(payload:any) => void, error?:(details?:any) => void, method?:"POST" | "GET", additionalHeaders?:{[key:string]:any}):void {
@@ -21,7 +22,7 @@ export default class HSReplayNetClientImpl implements HSReplayNetClient {
 		}
 		let req = request({
 			host: this.endpoint,
-			port: 443,
+			port: this.port,
 			path: "/api/v1/" + resource,
 			method: method || "POST",
 			headers: headers,
