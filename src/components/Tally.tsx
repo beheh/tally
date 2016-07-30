@@ -5,7 +5,7 @@ import Token from "./Token";
 import {HSReplayNetClient, HSReplayNetUser} from "../interfaces";
 import LogDirectory from "./LogDirectory";
 
-const {shell} = require('electron').remote;
+const {shell, app} = require('electron').remote;
 
 interface TallyProps extends React.ClassAttributes<any> {
 	configuration:Configuration;
@@ -20,6 +20,7 @@ interface TallyState {
 	token?:string|null;
 	user?:HSReplayNetUser|null;
 	logs?:string;
+	failed?:boolean;
 }
 
 class Tally extends React.Component<TallyProps, TallyState> {
@@ -56,6 +57,8 @@ class Tally extends React.Component<TallyProps, TallyState> {
 				requestingToken: false,
 				token: token,
 			})
+		}, () => {
+			this.setState({failed: true});
 		});
 	}
 
@@ -119,6 +122,21 @@ class Tally extends React.Component<TallyProps, TallyState> {
 				user: user,
 			});
 			cb && cb(user);
+		}, (statusCode: number, error: string) => {
+			this.setState({
+				queryingToken: false,
+			});
+			if(("" + statusCode).startsWith("4")) {
+				this.setState({
+					token: null,
+				});
+				console.error(error);
+			}
+			else {
+				this.setState({
+					failed: true,
+				});
+			}
 		});
 	}
 
@@ -129,7 +147,10 @@ class Tally extends React.Component<TallyProps, TallyState> {
 
 	public render():React.ReactElement<any> {
 		let component = null;
-		if (this.state.token) {
+		if (this.state.failed) {
+			component = <div>Communication error&nbsp;<button onClick={() => {app.relaunch(); app.exit(1)}}>Restart</button></div>;
+		}
+		else if (this.state.token) {
 			component = <Account user={this.state.user}
 								 claiming={this.state.claimingAccount}
 								 querying={this.state.queryingToken}
