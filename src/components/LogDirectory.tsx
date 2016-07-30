@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as fs from "fs";
 
-const {dialog, getCurrentWindow} = require('electron').remote;
+const {dialog, getCurrentWindow} = require("electron").remote;
 
 interface LogDirectoryProps extends React.ClassAttributes<any> {
 	directory: string;
@@ -29,7 +29,7 @@ export default class LogDirectory extends React.Component<LogDirectoryProps, Log
 		let win = getCurrentWindow();
 		dialog.showOpenDialog(win, {
 			defaultPath: this.props.directory || "",
-			properties: ['openDirectory'],
+			properties: ["openDirectory"],
 		}, (folders: string[]) => {
 			if(!folders || !folders.length) {
 				return;

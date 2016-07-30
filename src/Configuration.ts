@@ -9,19 +9,19 @@ export default class Configuration {
 	}
 
 	protected load(): void {
-		fs.closeSync(fs.openSync(this.file, 'a'));
-		this.config = yaml.safeLoad(fs.readFileSync(this.file, 'utf8')) || {};
+		fs.closeSync(fs.openSync(this.file, "a"));
+		this.config = yaml.safeLoad(fs.readFileSync(this.file, "utf8")) || {};
 	}
 
 	protected save(): void {
-		fs.writeFileSync(this.file, yaml.safeDump(this.config), {encoding: 'utf8'});
+		fs.writeFileSync(this.file, yaml.safeDump(this.config), {encoding: "utf8"});
 	}
 
 	public get(key: string, defaultValue?: any): any {
-		if(typeof this.config[key] !== 'undefined') {
+		if(typeof this.config[key] !== "undefined") {
 			return this.config[key];
 		}
-		if(typeof defaultValue !== 'undefined') {
+		if(typeof defaultValue !== "undefined") {
 			this.set(key, defaultValue);
 		}
 		return defaultValue;

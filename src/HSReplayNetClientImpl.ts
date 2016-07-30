@@ -13,7 +13,7 @@ export default class HSReplayNetClientImpl implements HSReplayNetClient {
 			"Accept": "application/json",
 			"X-Api-Key": this.api_key,
 		};
-		if (additionalHeaders && typeof additionalHeaders === 'object') {
+		if (additionalHeaders && typeof additionalHeaders === "object") {
 			let keys = Object.keys(additionalHeaders);
 			for (let i = 0; i < keys.length; i++) {
 				let key = keys[i];
@@ -27,12 +27,12 @@ export default class HSReplayNetClientImpl implements HSReplayNetClient {
 			method: method || "POST",
 			headers: headers,
 		}, (res:IncomingMessage) => {
-			res.setEncoding('utf-8');
+			res.setEncoding("utf-8");
 			let data = "";
-			res.on('data', (chunk:string) => {
+			res.on("data", (chunk:string) => {
 				data += chunk;
 			});
-			res.on('end', () => {
+			res.on("end", () => {
 				if (res.statusCode.toString().startsWith("2")) {
 					console.debug(data);
 					success(JSON.parse(data));
@@ -51,14 +51,14 @@ export default class HSReplayNetClientImpl implements HSReplayNetClient {
 	}
 
 	public requestToken(cb:(token:string)=>void, error?: () => void):void {
-		this.jsonRequest("tokens/", (payload:any) => cb(payload['key']), error ? (c, m, d) => error() : null);
+		this.jsonRequest("tokens/", (payload:any) => cb(payload["key"]), error ? (c, m, d) => error() : null);
 	}
 
 	public claimAccount(token:string, cb:(url:string)=>void):void {
-		this.jsonRequest("claim_account/", (payload:any) => cb(payload['url']), null, null, {"Authorization": "Token " + token});
+		this.jsonRequest("claim_account/", (payload:any) => cb(payload["url"]), null, null, {"Authorization": "Token " + token});
 	}
 
 	public queryToken(token:string, success:(user:HSReplayNetUser)=>void, error?:(statusCode: number, message: string)=>void):void {
-		this.jsonRequest("tokens/" + token + "/", (payload:any) => success(payload['user']), error ? (c, m, d) => error(c, d.detail) : null, "GET");
+		this.jsonRequest("tokens/" + token + "/", (payload:any) => success(payload["user"]), error ? (c, m, d) => error(c, d.detail) : null, "GET");
 	}
 }

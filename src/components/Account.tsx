@@ -2,7 +2,7 @@ import * as React from "react";
 import {HSReplayNetUser} from "../interfaces";
 import Spinner from "./Spinner";
 
-const {shell} = require('electron');
+const {shell} = require("electron");
 
 interface AccountProps extends React.ClassAttributes<any> {
 	claimAccount?:(success:(url:string) => void) => void;

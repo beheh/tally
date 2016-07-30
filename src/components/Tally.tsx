@@ -5,7 +5,7 @@ import Token from "./Token";
 import {HSReplayNetClient, HSReplayNetUser} from "../interfaces";
 import LogDirectory from "./LogDirectory";
 
-const {shell, app} = require('electron').remote;
+const {shell, app} = require("electron").remote;
 
 interface TallyProps extends React.ClassAttributes<any> {
 	configuration:Configuration;
@@ -27,7 +27,7 @@ class Tally extends React.Component<TallyProps, TallyState> {
 
 	constructor(props:TallyProps, context:any) {
 		super(props, context);
-		let token = this.props.configuration.get('token') || null;
+		let token = this.props.configuration.get("token") || null;
 		this.state = {
 			requestingToken: false,
 			claimingAccount: false,
@@ -35,7 +35,7 @@ class Tally extends React.Component<TallyProps, TallyState> {
 			waitingForClaim: false,
 			token: token,
 			user: null,
-			logs: this.props.configuration.get('logs'),
+			logs: this.props.configuration.get("logs"),
 		};
 		if (token) {
 			this.queryToken(null, true);
@@ -51,7 +51,7 @@ class Tally extends React.Component<TallyProps, TallyState> {
 		});
 		this.props.client.requestToken((token:string) => {
 			if (token) {
-				this.props.configuration.set('token', token);
+				this.props.configuration.set("token", token);
 			}
 			this.setState({
 				requestingToken: false,
@@ -69,7 +69,7 @@ class Tally extends React.Component<TallyProps, TallyState> {
 		this.setState({
 			claimingAccount: true,
 		});
-		this.props.client.claimAccount(this.props.configuration.get('token'), (url:string) => {
+		this.props.client.claimAccount(this.props.configuration.get("token"), (url:string) => {
 			this.setState({
 				claimingAccount: false,
 			});
@@ -77,7 +77,7 @@ class Tally extends React.Component<TallyProps, TallyState> {
 				this.setState({
 					waitingForClaim: true,
 				});
-				success('https://hsreplay.net' + url);
+				success("https://hsreplay.net" + url);
 				let interval = null;
 				let timeout = null;
 				let end = () => {
@@ -116,7 +116,7 @@ class Tally extends React.Component<TallyProps, TallyState> {
 				queryingToken: true,
 			});
 		}
-		this.props.client.queryToken(this.props.configuration.get('token'), (user:HSReplayNetUser) => {
+		this.props.client.queryToken(this.props.configuration.get("token"), (user:HSReplayNetUser) => {
 			this.setState({
 				queryingToken: false,
 				user: user,
@@ -171,7 +171,7 @@ class Tally extends React.Component<TallyProps, TallyState> {
 			<div>
 				<h1>Replays</h1>
 				<p>Hearthstone Logs: <LogDirectory directory={this.state.logs} setDirectory={(directory: string)  => {
-					this.props.configuration.set('logs', directory);
+					this.props.configuration.set("logs", directory);
 					this.setState({
 						logs: directory,
 					});
