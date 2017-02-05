@@ -59,6 +59,6 @@ export default class HSReplayNetClientImpl implements HSReplayNetClient {
 	}
 
 	public queryToken(token:string, success:(user:HSReplayNetUser)=>void, error?:(statusCode: number, message: string)=>void):void {
-		this.jsonRequest("tokens/" + token + "/", (payload:any) => success(payload["user"]), error ? (c, m, d) => error(c, d.detail) : null, "GET");
+		this.jsonRequest("tokens/" + token + "/", (payload:any) => success(payload["user"]), error ? (c, m, d) => error(c, d.detail) : null, "GET", {"Authorization": "Token " + token});
 	}
 }
