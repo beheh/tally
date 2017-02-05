@@ -4,16 +4,16 @@ module.exports = {
 		filename: 'tally.js',
 	},
 	resolve: {
-		extensions: ['', '.webpack.js', '.js', '.ts', '.tsx']
+		extensions: ['.webpack.js', '.js', '.ts', '.tsx']
 	},
 	module: {
-		loaders: [
+		rules: [
 			{
 				test: /\.tsx?$/,
-				loaders: [
+				use: [
 					'babel-loader?presets[]=react&presets[]=es2015',
 					'awesome-typescript-loader',
-				]
+				],
 			}
 		]
 	},
@@ -22,5 +22,5 @@ module.exports = {
 		fs: true,
 		net: true,
 	},
-	target: 'electron',
+	target: 'electron-renderer',
 };
