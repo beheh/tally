@@ -21,7 +21,7 @@
     "electron-prebuilt": "^1.2.7",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
-    "typescript": "^2.1.0-dev.20160714",
+    "typescript": "^2.1.5",
     "webpack": "^2.2.1"
   },
   "dependencies": {
