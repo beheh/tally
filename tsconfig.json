@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "declaration": false,
+    "target": "es5",
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "moduleResolution": "node",
+    "isolatedModules": false,
+    "jsx": "react",
+    "noImplicitAny": false,
+    "removeComments": true,
+    "noLib": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "sourceMap": false,
+    "outDir": "build/"
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

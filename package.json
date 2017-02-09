@@ -7,6 +7,10 @@
     "type": "git",
     "url": "https://github.com/beheh/tally.git"
   },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
   "devDependencies": {
     "@types/electron": "^1.4.31",
     "@types/js-yaml": "^3.5.29",
