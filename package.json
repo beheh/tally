@@ -1,0 +1,26 @@
+{
+  "name": "tally",
+  "version": "0.1.0",
+  "main": "./build/main/index.js",
+  "author": "Benedict Etzel <developer@beheh.de>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/beheh/tally.git"
+  },
+  "devDependencies": {
+    "@types/electron": "^1.4.31",
+    "@types/js-yaml": "^3.5.29",
+    "@types/moment-timezone": "^0.2.34",
+    "@types/node": "^7.0.5",
+    "@types/react": "^15.0.8",
+    "@types/react-dom": "^0.14.23",
+    "@types/whatwg-fetch": "0.0.33",
+    "electron": "^1.4.15",
+    "js-yaml": "^3.8.1",
+    "moment-timezone": "^0.5.11",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "typescript": "^2.1.6"
+  },
+  "private": true
+}
