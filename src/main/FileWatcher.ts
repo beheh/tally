@@ -131,6 +131,10 @@ export default class FileWatcher extends Events.EventEmitter {
 	}
 
 	protected openFile(callback?: () => void): void {
+		if (this.fd) {
+			throw new Error("Cannot open file when one is already open");
+		}
+
 		fs.open(this._filename, "r", (error: Error, fd: number) => {
 			if (error) {
 				this.emit("error", error);
@@ -146,11 +150,19 @@ export default class FileWatcher extends Events.EventEmitter {
 		});
 	}
 
-	protected closeFile(): void {
+	protected closeFile(callback?: () => void): void {
 		if (!this.fd) {
 			return;
 		}
-		fs.close(this.fd);
+		fs.close(this.fd, (error: Error) => {
+			if (error) {
+				this.emit("error", error);
+				return;
+			}
+			if (callback) {
+				callback();
+			}
+		});
 		this.fd = null;
 	}
 
