@@ -17,6 +17,10 @@ export default class PowerLogParser extends Transform {
 	protected _transform(chunk: any, encoding: string, callback: Function): void {
 		const line: string = "" + chunk;
 		const parsed = logLineRegExp.exec(line);
+		if (!parsed) {
+			console.error(`Invalid log line "${line}"`);
+			return;
+		}
 
 		const timestamp = parsed[2];
 		const className = parsed[8];

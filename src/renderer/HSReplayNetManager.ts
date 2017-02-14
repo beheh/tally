@@ -12,7 +12,7 @@ import HSReplayNetClient from "./HSReplayNetClient";
 export default class HSReplayNetManager extends EventEmitter {
 
 	public client: HSReplayNetClient;
-	public user: HSReplayNetUser;
+	public user: HSReplayNetUser|null;
 	private _token;
 
 	constructor(client: HSReplayNetClient) {

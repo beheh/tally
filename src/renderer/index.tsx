@@ -40,6 +40,9 @@ ipcRenderer.on("game", (event, game: any) => {
 	].map((raw: string) => {
 		const matches = raw.match(regexp);
 		const timestamp = moment();
+		if (!matches) {
+			throw new Error(`Invalid timestamp "${raw}"`);
+		}
 		timestamp.hours(+matches[0]);
 		timestamp.minutes(+matches[1]);
 		timestamp.seconds(+matches[2]);

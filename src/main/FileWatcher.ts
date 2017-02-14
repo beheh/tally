@@ -10,8 +10,8 @@ export default class FileWatcher extends Events.EventEmitter {
 
 	private _filename: string;
 	private readonly separator: string;
-	private watcher: fs.FSWatcher;
-	private fd: number;
+	private watcher: fs.FSWatcher|null;
+	private fd: number|null;
 	private queueRead: boolean;
 	private bookmark: number;
 	private buffer: string;
@@ -79,7 +79,7 @@ export default class FileWatcher extends Events.EventEmitter {
 	}
 
 	protected read(size?: number, byPass: boolean = false): void {
-		if ((!this.fd || this.reading) && !byPass) {
+		if ((this.reading && !byPass) || !this.fd) {
 			this.queueRead = true;
 			return;
 		}
@@ -110,6 +110,10 @@ export default class FileWatcher extends Events.EventEmitter {
 	}
 
 	protected getAdditionalSize(callback: (size: number) => void): void {
+		if (!this.fd) {
+			throw new Error("Cannot get additional size without file descriptor");
+		}
+
 		// get the file length
 		fs.fstat(this.fd, (error: Error, stats: fs.Stats) => {
 

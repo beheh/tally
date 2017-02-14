@@ -2,8 +2,8 @@ import * as fs from "fs";
 import * as yaml from "js-yaml";
 import {EventEmitter} from "events";
 
-let configuration = null;
-let fileName = null;
+let configuration: string|null = null;
+let fileName: string|null = null;
 
 export function load(file: string): Promise<{}> {
 	return new Promise<string>((resolve, reject) => {

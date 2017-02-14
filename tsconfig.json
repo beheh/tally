@@ -13,6 +13,7 @@
     "removeComments": true,
     "noLib": false,
     "suppressImplicitAnyIndexErrors": true,
+    "strictNullChecks": true,
     "sourceMap": false,
     "outDir": "build/"
   },
