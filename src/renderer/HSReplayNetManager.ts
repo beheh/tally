@@ -35,64 +35,59 @@ export default class HSReplayNetManager extends EventEmitter {
 		if (this.token) {
 			throw new Error("Token already created");
 		}
-		return new Promise<string>((resolve, reject) => {
-			this.client.createToken().then(
-				(response: CreateTokenResponse) => {
-					const token = response.key;
-					this._token = token;
-					this.emit("token", token, !!response.test_data);
-					resolve(response.key);
-				},
-				reject
-			);
-		});
+		return this.client.createToken().then(
+			(response: CreateTokenResponse) => {
+				const token = response.key;
+				this._token = token;
+				this.emit("token", token, !!response.test_data);
+				return (response.key);
+			}
+		);
 	}
 
 	public getTokenDetails(): Promise<void> {
-		return new Promise<void>((resolve, reject) => {
-			this.client.getTokenDetails(this._token).then(
-				(response: GetTokenDetailsResponse) => {
-					this.user = response.user;
-					resolve();
-				},
-				reject
-			);
-		});
+		if (!this.token) {
+			throw new Error("Cannot get token details without token");
+		}
+		return this.client.getTokenDetails(this._token).then(
+			(response: GetTokenDetailsResponse) => {
+				this.user = response.user;
+			}
+		);
 	}
 
 	public createAccountClaim(): Promise<string> {
 		if (!this.token) {
 			throw new Error("Cannot claim without token");
 		}
-		return new Promise((resolve: (a: any) => void, reject: (reason: any) => void) => {
-			this.client.createAccountClaim(this._token).then(
-				(response: CreateAccountClaimResponse) => {
-					const claimUrl = response.full_url;
-					this.emit("claim", claimUrl);
-					resolve(claimUrl);
-				},
-				(reason: any) => {
-					// maybe it was already claimed?
-					this.getTokenDetails();
-					reject(reason);
-				}
-			);
-		});
+		return this.client.createAccountClaim(this._token).then(
+			(response: CreateAccountClaimResponse) => {
+				const claimUrl = response.full_url;
+				this.emit("claim", claimUrl);
+				return (claimUrl);
+			},
+			(error: Error) => {
+				this.getTokenDetails();
+				throw error;
+			}
+		);
+	}
+
+	public prepareReplay(metadata: ReplayMetadata): Promise<PrepareReplayResponse> {
+		if (!this.token) {
+			throw new Error("Cannot upload replay without token");
+		}
+		return this.client.prepareReplay(this.token, metadata);
 	}
 
 	public uploadReplay(log: string, metadata: ReplayMetadata): Promise<void> {
 		if (!this.token) {
 			throw new Error("Cannot upload replay without token");
 		}
-		return new Promise<void>((resolve) => {
-			this.client.prepareReplay(this.token, metadata).then(
-				(response: PrepareReplayResponse) => {
-					console.log(response.url);
-					return response.put_url;
-				}
-			).then((putUrl: string) => {
-				return this.client.putReplay(putUrl, this.token, log);
-			});
-		});
+		return this.prepareReplay(metadata).then(
+			(response: PrepareReplayResponse) => {
+				this.client.putReplay(response.put_url, this.token, log);
+			}
+		);
 	}
 }
