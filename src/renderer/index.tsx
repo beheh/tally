@@ -5,13 +5,18 @@ import HSReplayNetClient from "./HSReplayNetClient";
 import HSReplayNetManager from "./HSReplayNetManager";
 import {remote, ipcRenderer} from "electron";
 import * as moment from "moment-timezone";
+import {
+	HSREPLAYNET_API_KEY,
+	HSREPLAYNET_API_URL,
+	HSREPLAYNET_UPLOAD_API_URL
+} from "../constants";
 
 const config = remote.require("./Configuration");
 
 const client = new HSReplayNetClient(
-	"efe2aa81-0195-488c-a2da-83a19be54f62",
-	"https://api.hsreplay.net/v1/",
-	"https://upload.hsreplay.net/api/v1/",
+	HSREPLAYNET_API_KEY,
+	HSREPLAYNET_API_URL,
+	HSREPLAYNET_UPLOAD_API_URL,
 );
 const manager = new HSReplayNetManager(client);
 
