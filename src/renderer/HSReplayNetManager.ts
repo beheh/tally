@@ -58,6 +58,9 @@ export default class HSReplayNetManager extends EventEmitter {
 		if (!this.token) {
 			throw new Error("Cannot claim without token");
 		}
+		if (this.user) {
+			throw new Error("Token has already been claimed");
+		}
 		return this.client.createAccountClaim(this._token).then(
 			(response: CreateAccountClaimResponse) => {
 				const claimUrl = response.full_url;
