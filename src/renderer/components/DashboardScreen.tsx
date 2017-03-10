@@ -11,11 +11,7 @@ export default class DashboardScreen extends React.Component<DashboardScreenProp
 	render(): JSX.Element {
 		return <div id="tally">
 			<aside className="account">
-				<AccountStatus
-					token={this.props.accountStatus.token}
-					creating={this.props.accountStatus.creating}
-					claiming={this.props.accountStatus.claiming}
-				/>
+				{React.createElement(AccountStatus, this.props.accountStatus)}
 			</aside>
 			<div>
 				<h1>Tally</h1>
