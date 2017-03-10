@@ -45,14 +45,15 @@ export default class HSReplayNetManager extends EventEmitter {
 		);
 	}
 
-	public getTokenDetails(): Promise<void> {
+	public getTokenDetails(): Promise<HSReplayNetUser> {
 		if (!this.token) {
 			throw new Error("Cannot get token details without token");
 		}
 		return this.client.getTokenDetails(this._token).then(
 			(response: GetTokenDetailsResponse) => {
 				this.user = response.user;
-			}
+				return response.user;
+			},
 		);
 	}
 
