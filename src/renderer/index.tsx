@@ -55,7 +55,8 @@ ipcRenderer.on("game", (event, game: any) => {
 		return timestamp;
 	});
 
-	if (timestamps[0].isAfter(timestamps[1])) {
+	// if we're starting more than 12 hours after we finished we must have rolled over midnight
+	if (timestamps[0].isAfter(timestamps[1]) && timestamps[0].diff(timestamps[1], "hours") > 12) {
 		timestamps[0] = timestamps[0].add(-1, "day");
 	}
 
