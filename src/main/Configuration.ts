@@ -36,6 +36,9 @@ export function load(file: string): Promise<void> {
 			watcher.emit("load", configuration);
 			resolve();
 		});
+	})).catch((error) => {
+		// continue with empty configuration
+		configuration = {};
 	});
 }
 
