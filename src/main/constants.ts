@@ -1,3 +1,3 @@
 import {app} from "electron";
 
-export var configurationFile = app.getPath("userData") + "/tally.yml";
+export let configurationFile = app.getPath("userData") + "/tally.yml";

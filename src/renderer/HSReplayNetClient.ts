@@ -1,10 +1,10 @@
 import {
-	HSReplayNetClientInterface,
-	CreateTokenResponse,
 	CreateAccountClaimResponse,
+	CreateTokenResponse,
 	GetTokenDetailsResponse,
+	HSReplayNetClientInterface,
 	PrepareReplayResponse,
-	ReplayMetadata
+	ReplayMetadata,
 } from "./interfaces";
 
 export default class HSReplayNetClient implements HSReplayNetClientInterface {
@@ -42,7 +42,7 @@ export default class HSReplayNetClient implements HSReplayNetClientInterface {
 			{
 				method: "POST",
 				body: this.testClient ? JSON.stringify({test_data: true}) : null,
-			}
+			},
 		);
 	}
 
@@ -51,8 +51,8 @@ export default class HSReplayNetClient implements HSReplayNetClientInterface {
 			this.apiUrl + "claim_account/" + token,
 			{
 				method: "POST",
-				headers: {"Authorization": "Token " + token},
-			}
+				headers: {Authorization: "Token " + token},
+			},
 		);
 	}
 
@@ -61,8 +61,8 @@ export default class HSReplayNetClient implements HSReplayNetClientInterface {
 			this.apiUrl + "tokens/" + token + "/",
 			{
 				method: "GET",
-				headers: {"Authorization": "Token " + token},
-			}
+				headers: {Authorization: "Token " + token},
+			},
 		);
 	}
 
@@ -72,8 +72,8 @@ export default class HSReplayNetClient implements HSReplayNetClientInterface {
 			{
 				method: "POST",
 				body: JSON.stringify(metadata),
-				headers: {"Authorization": "Token " + token},
-			}
+				headers: {Authorization: "Token " + token},
+			},
 		);
 	}
 

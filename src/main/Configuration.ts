@@ -1,6 +1,6 @@
+import {EventEmitter} from "events";
 import * as fs from "fs";
 import * as yaml from "js-yaml";
-import {EventEmitter} from "events";
 
 let configuration: string|null = null;
 let fileName: string|null = null;
@@ -41,7 +41,7 @@ export function set(key: string, value: any): Promise<{}> {
 	});
 }
 
-export function get(key: string, defaultValue?: any): Promise<string> {
+export function get(key: string, defaultValue?: any): Promise<any> {
 	return new Promise((resolve, reject) => {
 		if (configuration === null) {
 			reject(new Error("Configuration has not been loaded"));
@@ -73,9 +73,9 @@ export function save(file?: string): Promise<{}> {
 			}
 			resolve();
 		});
-	})
+	});
 }
 
 class ConfigurationWatcher extends EventEmitter {
 }
-export var watcher = new ConfigurationWatcher();
+export let watcher = new ConfigurationWatcher();

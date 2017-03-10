@@ -1,13 +1,13 @@
 import {EventEmitter} from "events";
-import {
-	HSReplayNetUser,
-	CreateTokenResponse,
-	CreateAccountClaimResponse,
-	GetTokenDetailsResponse,
-	ReplayMetadata,
-	PrepareReplayResponse
-} from "./interfaces";
 import HSReplayNetClient from "./HSReplayNetClient";
+import {
+	CreateAccountClaimResponse,
+	CreateTokenResponse,
+	GetTokenDetailsResponse,
+	HSReplayNetUser,
+	PrepareReplayResponse,
+	ReplayMetadata
+} from "./interfaces";
 
 export default class HSReplayNetManager extends EventEmitter {
 
@@ -41,7 +41,7 @@ export default class HSReplayNetManager extends EventEmitter {
 				this._token = token;
 				this.emit("token", token, !!response.test_data);
 				return (response.key);
-			}
+			},
 		);
 	}
 
@@ -69,7 +69,7 @@ export default class HSReplayNetManager extends EventEmitter {
 			(error: Error) => {
 				this.getTokenDetails();
 				throw error;
-			}
+			},
 		);
 	}
 
@@ -87,7 +87,7 @@ export default class HSReplayNetManager extends EventEmitter {
 		return this.prepareReplay(metadata).then(
 			(response: PrepareReplayResponse) => {
 				this.client.putReplay(response.put_url, this.token, log);
-			}
+			},
 		);
 	}
 }

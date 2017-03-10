@@ -101,7 +101,7 @@ function createWindow(): Promise<{}> {
 
 		mainWindow.once("show", () => {
 			resolve();
-		})
+		});
 	});
 }
 

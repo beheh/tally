@@ -1,4 +1,4 @@
-import {app, shell, Menu} from "electron";
+import {app, Menu, shell} from "electron";
 
 const base = "https://hsreplay.net";
 const repository = "https://github.com/beheh/tally";
@@ -83,7 +83,7 @@ const template = [
 				},
 			},
 		],
-	}
+	},
 ];
 
 /*if (process.platform === "darwin" || true) {
