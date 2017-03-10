@@ -46,6 +46,7 @@ export default class HSReplayNetClient implements HSReplayNetClientInterface {
 			{
 				method: "POST",
 				body: this.testClient ? JSON.stringify({test_data: true}) : null,
+				headers: {"Content-Type": "application/json"},
 			},
 		);
 	}
