@@ -2,12 +2,25 @@ import {EventEmitter} from "events";
 import * as fs from "fs";
 import * as yaml from "js-yaml";
 
-let configuration: string|null = null;
+interface ConfigurationLayout {
+	[key: string]: any;
+}
+
+let configuration: ConfigurationLayout|null = null;
 let fileName: string|null = null;
 
-export function load(file: string): Promise<{}> {
-	return new Promise<string>((resolve, reject) => {
-		fileName = file;
+export function load(file: string): Promise<void> {
+	fileName = file;
+	return new Promise<void>((resolve, reject) => {
+		fs.exists(file, (exists: boolean) => {
+			if (exists) {
+				resolve();
+			}
+			else {
+				reject(new Error("Configuration file does not exist"));
+			}
+		});
+	}).then<void>(() => new Promise<void>((resolve, reject) => {
 		fs.readFile(file, {
 			encoding: "utf-8",
 			flag: "r",
@@ -26,8 +39,8 @@ export function load(file: string): Promise<{}> {
 	});
 }
 
-export function set(key: string, value: any): Promise<{}> {
-	return new Promise((resolve, reject) => {
+export function set<T>(key: string, value: T): Promise<void> {
+	return new Promise<void>((resolve, reject) => {
 		if (configuration === null) {
 			reject(new Error("Configuration has not been loaded"));
 			return;
@@ -41,7 +54,7 @@ export function set(key: string, value: any): Promise<{}> {
 	});
 }
 
-export function get(key: string, defaultValue?: any): Promise<any> {
+export function get<T>(key: string, defaultValue?: T): Promise<T> {
 	return new Promise((resolve, reject) => {
 		if (configuration === null) {
 			reject(new Error("Configuration has not been loaded"));
@@ -58,8 +71,8 @@ export function get(key: string, defaultValue?: any): Promise<any> {
 	});
 }
 
-export function save(file?: string): Promise<{}> {
-	return new Promise((resolve, reject) => {
+export function save(file?: string): Promise<void> {
+	return new Promise<void>((resolve, reject) => {
 		if (!fileName || configuration === null) {
 			reject(new Error("Will not save configuration"));
 			return;
