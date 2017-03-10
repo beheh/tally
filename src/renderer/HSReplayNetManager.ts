@@ -26,9 +26,6 @@ export default class HSReplayNetManager extends EventEmitter {
 
 	public set token(token: string) {
 		this._token = token;
-		if (token) {
-			this.getTokenDetails();
-		}
 	}
 
 	public createToken(): Promise<string> {
