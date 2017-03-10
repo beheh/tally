@@ -7,7 +7,7 @@ const rawName = app.getName();
 const appName = rawName.charAt(0).toUpperCase() + rawName.substr(1);
 
 const openUrl = (url: string): void => {
-	shell.openExternal(base + "/games/mine/");
+	shell.openExternal(url);
 };
 
 const template = [
@@ -22,7 +22,7 @@ const template = [
 			},
 			{
 				label: "Open in Browser",
-				click: () => openUrl(""),
+				click: () => openUrl(base + "/games/mine/"),
 			},
 		],
 	},
@@ -39,7 +39,7 @@ const template = [
 				type: "separator",
 			},
 			{
-				label: "Open in Browser",
+				label: "Settings",
 				click: () => openUrl(base + "/account/"),
 			},
 			{
