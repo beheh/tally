@@ -31,8 +31,12 @@ export default class HSReplayNetClient implements HSReplayNetClientInterface {
 		options.headers = this.buildHeaders(options.headers);
 		return new Promise<any>((resolve: any, reject: any) => {
 			fetch(url, options).then((response: any) => {
+				const statusCode = response.status;
+				if ([200, 201].indexOf(statusCode) === -1) {
+					throw new Error(`Unexpected status code ${statusCode}`);
+				}
 				response.json().then(resolve, reject);
-			}, reject);
+			}, reject).catch(reject);
 		});
 	}
 
