@@ -30,7 +30,7 @@ export default class PowerLogParser extends Transform {
 
 		this.buffer += line;
 
-		if (className === "GameState" && methodName === "DebugPrintPower") {
+		if (className === "GameState") {
 
 			const newGame = body.startsWith("CREATE_GAME");
 			const gameOver = gameOverRegExp.test(body);
