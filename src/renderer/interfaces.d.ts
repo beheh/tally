@@ -24,8 +24,8 @@ export interface HSReplayNetUser {
 
 export interface ReplayMetadata {
 	match_start: string;
-	friendly_player_id: 1|2;
-	specator_mode?: boolean;
+	friendly_player: 1|2;
+	spectator_mode?: boolean;
 	game_type?: number;
 	format?: number;
 	test_data?: boolean;
